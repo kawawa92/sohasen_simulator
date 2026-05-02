@@ -273,7 +273,7 @@ button {
 
 <body>
 
-<h1>9試合 星取表シミュレーター</h1>
+<h1>争覇戦予選シミュレーター</h1>
 
 <div class="form-box">
   <div class="field">
@@ -283,7 +283,7 @@ button {
 
   <div class="note">
     ※ 1・4・7試合目の勝ち点は +2点、それ以外は +3点。<br>
-    ※ 連勝したときのボーナスは +1点。<br>
+    ※ 連勝ボーナス +1点。<br>
     ※ ボナpGETありなら勝敗に関係なく +1点。<br>
     ※ 目標得点 ±3点までを表示します。
   </div>
@@ -689,7 +689,7 @@ function calculatePatterns() {
 
       grouped[key].patterns.push(
         remainingResults.map(function(r) {
-          return r === "win" ? "○" : "X";
+          return r === "win" ? "○" : "ｘ";
         }).join("")
       );
     }
