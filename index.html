@@ -11,51 +11,14 @@ body {
   max-width: 1000px;
   margin: 16px auto;
   padding: 0 12px 24px;
-  line-height: 1.5;
   background: #f7f7f7;
-  color: #222;
 }
 
-h1 {
-  font-size: 24px;
-  margin-bottom: 16px;
-}
-
-.form-box,
 .board-box {
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 12px;
   padding: 16px;
-  margin-bottom: 16px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-}
-
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-label {
-  font-weight: bold;
-  font-size: 14px;
-}
-
-input,
-select,
-button {
-  font-size: 16px;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-}
-
-.note {
-  color: #666;
-  font-size: 13px;
-  margin-top: 10px;
 }
 
 .board-row {
@@ -69,7 +32,7 @@ button {
 }
 
 .cell {
-  width: 72px;
+  width: 70px;
   text-align: center;
   padding: 6px;
   border-radius: 10px;
@@ -77,674 +40,232 @@ button {
 
 .cell.played-win {
   background: #dbeafe;
-  border: 1px solid #60a5fa;
 }
 
 .cell.played-lose {
   background: #fee2e2;
-  border: 1px solid #f87171;
-}
-
-.game-title {
-  font-size: 12px;
-  font-weight: bold;
-  color: #444;
 }
 
 .point-label {
   font-size: 11px;
   color: #666;
-  margin-bottom: 4px;
 }
 
 .input-line {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   gap: 4px;
 }
 
 .game-select {
-  width: 48px;
+  width: 44px;
   text-align: center;
-  appearance: none;
-  -webkit-appearance: none;
-  font-weight: bold;
 }
 
-.game-select.win {
-  background: #bfdbfe;
-  color: #1d4ed8;
-}
-
-.game-select.lose {
-  background: #fecaca;
-  color: #b91c1c;
-}
-
-.game-select.empty {
-  background: #f3f4f6;
-  color: #9ca3af;
-}
+.game-select.win { background: #bfdbfe; }
+.game-select.lose { background: #fecaca; }
 
 .bonus {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  font-size: 10px;
+}
+
+.bonus-title {
+  font-size: 9px;
   color: #555;
+  line-height: 1;
+  margin-bottom: 2px;
 }
 
 .bonus input {
   width: 18px;
   height: 18px;
-  accent-color: #2563eb;
-  padding: 0;
-}
-
-.error {
-  display: none;
-  background: #fff1f2;
-  color: #b91c1c;
-  border: 1px solid #fca5a5;
-  border-radius: 10px;
-  padding: 10px;
-  margin-bottom: 12px;
-  font-weight: bold;
-}
-
-.score {
-  font-weight: bold;
-  font-size: 18px;
-  margin-bottom: 12px;
 }
 
 button {
-  cursor: pointer;
-  border: none;
-  background: #1f6feb;
-  color: #fff;
-  font-weight: bold;
+  margin-top: 16px;
   width: 100%;
-  margin-bottom: 16px;
-}
-
-.summary {
-  margin: 12px 0 16px;
-  font-weight: bold;
-  font-size: 16px;
-  white-space: pre-line;
-}
-
-.group-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.group-card {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 14px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-}
-
-.group-card.exact {
-  border: 2px solid #16a34a;
-  background: #f0fff4;
-}
-
-.group-card.near {
-  border: 2px solid #f59e0b;
-  background: #fffaf0;
-}
-
-.group-title {
-  font-weight: bold;
-  font-size: 17px;
-  margin-bottom: 8px;
-}
-
-.meta {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-  margin-bottom: 10px;
-  font-size: 14px;
-}
-
-.patterns {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.pattern-chip {
-  background: #eef2ff;
-  border: 1px solid #c7d2fe;
-  border-radius: 999px;
-  padding: 6px 10px;
-  font-family: monospace;
-  font-size: 15px;
-  white-space: nowrap;
-}
-
-.empty-result {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 16px;
-}
-
-@media (max-width: 640px) {
-  h1 {
-    font-size: 22px;
-  }
-
-  .meta {
-    grid-template-columns: 1fr;
-  }
-
-  .cell {
-    width: 64px;
-  }
-
-  .game-select {
-    width: 44px;
-  }
+  padding: 12px;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
 }
 </style>
 </head>
 
 <body>
 
-<h1>9試合 星取表シミュレーター</h1>
-
-<div class="form-box">
-  <div class="field">
-    <label for="targetScore">目標得点</label>
-    <input type="number" id="targetScore">
-  </div>
-
-  <div class="note">
-    ※ 1・4・7試合目の勝ち点は +2点、それ以外は +3点。<br>
-    ※ 連勝したときのボーナスは +1点。<br>
-    ※ ボナpGETありなら勝敗に関係なく +1点。<br>
-    ※ 目標得点 ±3点までを表示します。
-  </div>
-</div>
+<h3>9試合 星取表（UI確認用）</h3>
 
 <div class="board-box">
-  <div id="errorBox" class="error">
-    勝敗は左から順に入力してください。途中を飛ばして入力はできません。
-  </div>
 
-  <div class="board-row">
-    <div class="cell" id="cell0">
-      <div class="game-title">1試合</div>
-      <div class="point-label">勝ち点2</div>
-      <div class="input-line">
-        <select id="r0" class="game-select empty" onchange="onInputChange(0)">
-          <option value="">未</option>
-          <option value="win">○</option>
-          <option value="lose">×</option>
-        </select>
-        <label class="bonus">
-          <input type="checkbox" id="b0" checked onchange="onInputChange(0)">
-        </label>
-      </div>
-    </div>
-
-    <div class="cell" id="cell1">
-      <div class="game-title">2試合</div>
-      <div class="point-label">勝ち点3</div>
-      <div class="input-line">
-        <select id="r1" class="game-select empty" onchange="onInputChange(1)">
-          <option value="">未</option>
-          <option value="win">○</option>
-          <option value="lose">×</option>
-        </select>
-        <label class="bonus">
-          <input type="checkbox" id="b1" checked onchange="onInputChange(1)">
-        </label>
-      </div>
-    </div>
-
-    <div class="cell" id="cell2">
-      <div class="game-title">3試合</div>
-      <div class="point-label">勝ち点3</div>
-      <div class="input-line">
-        <select id="r2" class="game-select empty" onchange="onInputChange(2)">
-          <option value="">未</option>
-          <option value="win">○</option>
-          <option value="lose">×</option>
-        </select>
-        <label class="bonus">
-          <input type="checkbox" id="b2" checked onchange="onInputChange(2)">
-        </label>
-      </div>
+<div class="board-row">
+  <div class="cell" id="cell0">
+    <div class="point-label">勝ち点2</div>
+    <div class="input-line">
+      <select id="r0" class="game-select" onchange="change(0)">
+        <option value="">未</option>
+        <option value="win">○</option>
+        <option value="lose">×</option>
+      </select>
+      <label class="bonus">
+        <span class="bonus-title">ボナP</span>
+        <input type="checkbox" checked>
+      </label>
     </div>
   </div>
 
-  <div class="board-divider"></div>
-
-  <div class="board-row">
-    <div class="cell" id="cell3">
-      <div class="game-title">4試合</div>
-      <div class="point-label">勝ち点2</div>
-      <div class="input-line">
-        <select id="r3" class="game-select empty" onchange="onInputChange(3)">
-          <option value="">未</option>
-          <option value="win">○</option>
-          <option value="lose">×</option>
-        </select>
-        <label class="bonus">
-          <input type="checkbox" id="b3" checked onchange="onInputChange(3)">
-        </label>
-      </div>
-    </div>
-
-    <div class="cell" id="cell4">
-      <div class="game-title">5試合</div>
-      <div class="point-label">勝ち点3</div>
-      <div class="input-line">
-        <select id="r4" class="game-select empty" onchange="onInputChange(4)">
-          <option value="">未</option>
-          <option value="win">○</option>
-          <option value="lose">×</option>
-        </select>
-        <label class="bonus">
-          <input type="checkbox" id="b4" checked onchange="onInputChange(4)">
-        </label>
-      </div>
-    </div>
-
-    <div class="cell" id="cell5">
-      <div class="game-title">6試合</div>
-      <div class="point-label">勝ち点3</div>
-      <div class="input-line">
-        <select id="r5" class="game-select empty" onchange="onInputChange(5)">
-          <option value="">未</option>
-          <option value="win">○</option>
-          <option value="lose">×</option>
-        </select>
-        <label class="bonus">
-          <input type="checkbox" id="b5" checked onchange="onInputChange(5)">
-        </label>
-      </div>
+  <div class="cell" id="cell1">
+    <div class="point-label">勝ち点3</div>
+    <div class="input-line">
+      <select id="r1" class="game-select" onchange="change(1)">
+        <option value="">未</option>
+        <option value="win">○</option>
+        <option value="lose">×</option>
+      </select>
+      <label class="bonus">
+        <span class="bonus-title">ボナP</span>
+        <input type="checkbox" checked>
+      </label>
     </div>
   </div>
 
-  <div class="board-divider"></div>
-
-  <div class="board-row">
-    <div class="cell" id="cell6">
-      <div class="game-title">7試合</div>
-      <div class="point-label">勝ち点2</div>
-      <div class="input-line">
-        <select id="r6" class="game-select empty" onchange="onInputChange(6)">
-          <option value="">未</option>
-          <option value="win">○</option>
-          <option value="lose">×</option>
-        </select>
-        <label class="bonus">
-          <input type="checkbox" id="b6" checked onchange="onInputChange(6)">
-        </label>
-      </div>
-    </div>
-
-    <div class="cell" id="cell7">
-      <div class="game-title">8試合</div>
-      <div class="point-label">勝ち点3</div>
-      <div class="input-line">
-        <select id="r7" class="game-select empty" onchange="onInputChange(7)">
-          <option value="">未</option>
-          <option value="win">○</option>
-          <option value="lose">×</option>
-        </select>
-        <label class="bonus">
-          <input type="checkbox" id="b7" checked onchange="onInputChange(7)">
-        </label>
-      </div>
-    </div>
-
-    <div class="cell" id="cell8">
-      <div class="game-title">9試合</div>
-      <div class="point-label">勝ち点3</div>
-      <div class="input-line">
-        <select id="r8" class="game-select empty" onchange="onInputChange(8)">
-          <option value="">未</option>
-          <option value="win">○</option>
-          <option value="lose">×</option>
-        </select>
-        <label class="bonus">
-          <input type="checkbox" id="b8" checked onchange="onInputChange(8)">
-        </label>
-      </div>
+  <div class="cell" id="cell2">
+    <div class="point-label">勝ち点3</div>
+    <div class="input-line">
+      <select id="r2" class="game-select" onchange="change(2)">
+        <option value="">未</option>
+        <option value="win">○</option>
+        <option value="lose">×</option>
+      </select>
+      <label class="bonus">
+        <span class="bonus-title">ボナP</span>
+        <input type="checkbox" checked>
+      </label>
     </div>
   </div>
 </div>
 
-<div id="scoreBar" class="score">累計得点: 0点</div>
+<div class="board-divider"></div>
 
-<button type="button" onclick="calculatePatterns()">残りパターン計算</button>
+<div class="board-row">
+  <div class="cell" id="cell3">
+    <div class="point-label">勝ち点2</div>
+    <div class="input-line">
+      <select id="r3" class="game-select" onchange="change(3)">
+        <option value="">未</option>
+        <option value="win">○</option>
+        <option value="lose">×</option>
+      </select>
+      <label class="bonus">
+        <span class="bonus-title">ボナP</span>
+        <input type="checkbox" checked>
+      </label>
+    </div>
+  </div>
 
-<div id="summary" class="summary">条件を入力して計算してください。</div>
-<div id="result"></div>
+  <div class="cell" id="cell4">
+    <div class="point-label">勝ち点3</div>
+    <div class="input-line">
+      <select id="r4" class="game-select" onchange="change(4)">
+        <option value="">未</option>
+        <option value="win">○</option>
+        <option value="lose">×</option>
+      </select>
+      <label class="bonus">
+        <span class="bonus-title">ボナP</span>
+        <input type="checkbox" checked>
+      </label>
+    </div>
+  </div>
+
+  <div class="cell" id="cell5">
+    <div class="point-label">勝ち点3</div>
+    <div class="input-line">
+      <select id="r5" class="game-select" onchange="change(5)">
+        <option value="">未</option>
+        <option value="win">○</option>
+        <option value="lose">×</option>
+      </select>
+      <label class="bonus">
+        <span class="bonus-title">ボナP</span>
+        <input type="checkbox" checked>
+      </label>
+    </div>
+  </div>
+</div>
+
+<div class="board-divider"></div>
+
+<div class="board-row">
+  <div class="cell" id="cell6">
+    <div class="point-label">勝ち点2</div>
+    <div class="input-line">
+      <select id="r6" class="game-select" onchange="change(6)">
+        <option value="">未</option>
+        <option value="win">○</option>
+        <option value="lose">×</option>
+      </select>
+      <label class="bonus">
+        <span class="bonus-title">ボナP</span>
+        <input type="checkbox" checked>
+      </label>
+    </div>
+  </div>
+
+  <div class="cell" id="cell7">
+    <div class="point-label">勝ち点3</div>
+    <div class="input-line">
+      <select id="r7" class="game-select" onchange="change(7)">
+        <option value="">未</option>
+        <option value="win">○</option>
+        <option value="lose">×</option>
+      </select>
+      <label class="bonus">
+        <span class="bonus-title">ボナP</span>
+        <input type="checkbox" checked>
+      </label>
+    </div>
+  </div>
+
+  <div class="cell" id="cell8">
+    <div class="point-label">勝ち点3</div>
+    <div class="input-line">
+      <select id="r8" class="game-select" onchange="change(8)">
+        <option value="">未</option>
+        <option value="win">○</option>
+        <option value="lose">×</option>
+      </select>
+      <label class="bonus">
+        <span class="bonus-title">ボナP</span>
+        <input type="checkbox" checked>
+      </label>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<button>残りパターン計算</button>
 
 <script>
-var TOTAL_GAMES = 9;
-var ALLOWANCE = 3;
-var WIN_POINTS = [2, 3, 3, 2, 3, 3, 2, 3, 3];
+function change(i){
+  var sel = document.getElementById("r"+i);
+  var cell = document.getElementById("cell"+i);
 
-function getEl(id) {
-  return document.getElementById(id);
-}
-
-function getResults() {
-  var results = [];
-  for (var i = 0; i < TOTAL_GAMES; i++) {
-    results.push(getEl("r" + i).value);
-  }
-  return results;
-}
-
-function getBonuses() {
-  var bonuses = [];
-  for (var i = 0; i < TOTAL_GAMES; i++) {
-    bonuses.push(getEl("b" + i).checked ? 1 : 0);
-  }
-  return bonuses;
-}
-
-function updateCellStyle(index) {
-  var select = getEl("r" + index);
-  var cell = getEl("cell" + index);
-
-  select.className = "game-select";
   cell.className = "cell";
 
-  if (select.value === "win") {
-    select.className += " win";
-    cell.className += " played-win";
-  } else if (select.value === "lose") {
-    select.className += " lose";
-    cell.className += " played-lose";
-  } else {
-    select.className += " empty";
+  if(sel.value==="win"){
+    cell.classList.add("played-win");
+    sel.classList.add("win");
+  }else if(sel.value==="lose"){
+    cell.classList.add("played-lose");
+    sel.classList.add("lose");
   }
 }
-
-function updateAllCellStyles() {
-  for (var i = 0; i < TOTAL_GAMES; i++) {
-    updateCellStyle(i);
-  }
-}
-
-function validateSequentialInput() {
-  var results = getResults();
-  var foundBlank = false;
-  var hasGap = false;
-
-  for (var i = 0; i < results.length; i++) {
-    if (results[i] === "") {
-      foundBlank = true;
-    } else if (foundBlank) {
-      hasGap = true;
-      break;
-    }
-  }
-
-  getEl("errorBox").style.display = hasGap ? "block" : "none";
-  return !hasGap;
-}
-
-function getFixedResults() {
-  var results = getResults();
-  var fixed = [];
-
-  for (var i = 0; i < results.length; i++) {
-    if (results[i] === "") {
-      break;
-    }
-    fixed.push(results[i]);
-  }
-
-  return fixed;
-}
-
-function calculateSequenceScore(sequence, bonuses, offsetIndex, prevWinStart) {
-  var score = 0;
-  var winCount = 0;
-  var streakBonus = 0;
-  var prevWin = prevWinStart ? true : false;
-
-  for (var i = 0; i < sequence.length; i++) {
-    var gameIndex = offsetIndex + i;
-
-    if (bonuses[i] === 1) {
-      score += 1;
-    }
-
-    if (sequence[i] === "win") {
-      score += WIN_POINTS[gameIndex];
-      winCount += 1;
-
-      if (prevWin) {
-        score += 1;
-        streakBonus += 1;
-      }
-
-      prevWin = true;
-    } else if (sequence[i] === "lose") {
-      prevWin = false;
-    }
-  }
-
-  return {
-    score: score,
-    winCount: winCount,
-    streakBonus: streakBonus,
-    endPrevWin: prevWin
-  };
-}
-
-function updateScore() {
-  var fixed = getFixedResults();
-  var bonuses = getBonuses().slice(0, fixed.length);
-  var calc = calculateSequenceScore(fixed, bonuses, 0, false);
-
-  getEl("scoreBar").textContent = "累計得点: " + calc.score + "点";
-}
-
-function onInputChange(index) {
-  updateCellStyle(index);
-  updateScore();
-
-  if (!validateSequentialInput()) {
-    getEl("summary").textContent = "入力エラー";
-    getEl("result").innerHTML =
-      '<div class="empty-result">勝敗は左から順に入力してください。</div>';
-    return;
-  }
-}
-
-function calculatePatterns() {
-  var summaryEl = getEl("summary");
-  var resultEl = getEl("result");
-  var targetRaw = getEl("targetScore").value;
-
-  resultEl.innerHTML = "";
-  summaryEl.textContent = "計算中...";
-
-  if (!validateSequentialInput()) {
-    summaryEl.textContent = "入力エラー";
-    resultEl.innerHTML =
-      '<div class="empty-result">勝敗は左から順に入力してください。</div>';
-    return;
-  }
-
-  if (targetRaw === "") {
-    summaryEl.textContent = "入力エラー";
-    resultEl.innerHTML =
-      '<div class="empty-result">目標得点を入力してください。</div>';
-    return;
-  }
-
-  var targetScore = Number(targetRaw);
-
-  if (isNaN(targetScore)) {
-    summaryEl.textContent = "入力エラー";
-    resultEl.innerHTML =
-      '<div class="empty-result">目標得点が不正です。</div>';
-    return;
-  }
-
-  var fixed = getFixedResults();
-  var bonuses = getBonuses();
-
-  var fixedCalc = calculateSequenceScore(
-    fixed,
-    bonuses.slice(0, fixed.length),
-    0,
-    false
-  );
-
-  var currentScore = fixedCalc.score;
-  getEl("scoreBar").textContent = "累計得点: " + currentScore + "点";
-
-  var remainingGames = TOTAL_GAMES - fixed.length;
-  var totalPatterns = Math.pow(2, remainingGames);
-  var remainingBonuses = bonuses.slice(fixed.length);
-
-  var grouped = {};
-  var groups = [];
-  var matchedCount = 0;
-
-  for (var mask = 0; mask < totalPatterns; mask++) {
-    var remainingResults = [];
-
-    for (var i = remainingGames - 1; i >= 0; i--) {
-      if ((mask & (1 << i)) !== 0) {
-        remainingResults.push("win");
-      } else {
-        remainingResults.push("lose");
-      }
-    }
-
-    var calc = calculateSequenceScore(
-      remainingResults,
-      remainingBonuses,
-      fixed.length,
-      fixedCalc.endPrevWin
-    );
-
-    var finalScore = currentScore + calc.score;
-    var diff = finalScore - targetScore;
-
-    if (Math.abs(diff) <= ALLOWANCE) {
-      matchedCount += 1;
-
-      var key =
-        calc.winCount + "_" +
-        calc.streakBonus + "_" +
-        calc.score + "_" +
-        finalScore;
-
-      if (!grouped[key]) {
-        grouped[key] = {
-          winCount: calc.winCount,
-          streakBonus: calc.streakBonus,
-          gainedScore: calc.score,
-          finalScore: finalScore,
-          diff: diff,
-          patterns: []
-        };
-        groups.push(grouped[key]);
-      }
-
-      grouped[key].patterns.push(
-        remainingResults.map(function(r) {
-          return r === "win" ? "○" : "×";
-        }).join("")
-      );
-    }
-  }
-
-  groups.sort(function(a, b) {
-    var diffA = Math.abs(a.diff);
-    var diffB = Math.abs(b.diff);
-
-    if (diffA !== diffB) return diffA - diffB;
-    if (a.finalScore !== b.finalScore) return a.finalScore - b.finalScore;
-    if (a.winCount !== b.winCount) return a.winCount - b.winCount;
-    if (a.streakBonus !== b.streakBonus) return a.streakBonus - b.streakBonus;
-    return a.patterns.length - b.patterns.length;
-  });
-
-  summaryEl.textContent =
-    "総パターン数: " + totalPatterns + "通り\n" +
-    "一致パターン数: " + matchedCount + "通り\n" +
-    "該当グループ: " + groups.length + "件\n" +
-    "累計得点: " + currentScore + "点 / 残り試合数: " + remainingGames;
-
-  if (groups.length === 0) {
-    resultEl.innerHTML =
-      '<div class="empty-result">目標得点 ±3点 に入る組み合わせはありません。</div>';
-    return;
-  }
-
-  var html = '<div class="group-list">';
-
-  for (var g = 0; g < groups.length; g++) {
-    var group = groups[g];
-    var absDiff = Math.abs(group.diff);
-    var diffText = group.diff > 0 ? "+" + group.diff : String(group.diff);
-
-    var cardClass = "group-card";
-    var badgeHtml = "";
-
-    if (group.diff === 0) {
-      cardClass += " exact";
-      badgeHtml = '<span class="badge badge-exact">ピッタリ</span>';
-    } else if (absDiff <= 1) {
-      cardClass += " near";
-      badgeHtml = '<span class="badge badge-near">おしい</span>';
-    }
-
-    group.patterns.sort();
-
-    var patternHtml = "";
-    for (var p = 0; p < group.patterns.length; p++) {
-      patternHtml +=
-        '<span class="pattern-chip">' +
-        (group.patterns[p] || "残りなし") +
-        '</span>';
-    }
-
-    html +=
-      '<div class="' + cardClass + '">' +
-        '<div class="group-title">最終得点: ' +
-          group.finalScore + '点 ' + badgeHtml +
-        '</div>' +
-        '<div class="meta">' +
-          '<div>目標との差: <strong>' + diffText + '</strong></div>' +
-          '<div>残り試合の獲得点: <strong>' + group.gainedScore + '</strong></div>' +
-          '<div>勝数: <strong>' + group.winCount + '</strong></div>' +
-          '<div>連勝ボーナス: <strong>' + group.streakBonus + '</strong></div>' +
-          '<div>パターン数: <strong>' + group.patterns.length + '</strong></div>' +
-        '</div>' +
-        '<div class="patterns">' + patternHtml + '</div>' +
-      '</div>';
-  }
-
-  html += '</div>';
-  resultEl.innerHTML = html;
-}
-
-updateAllCellStyles();
-updateScore();
 </script>
 
 </body>
