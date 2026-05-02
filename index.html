@@ -3,501 +3,313 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>残り9試合シミュレーター</title>
+<title>9試合 星取表シミュレーター</title>
+
 <style>
 body {
   font-family: sans-serif;
-  padding: 10px;
+  max-width: 900px;
+  margin: 16px auto;
+  padding: 0 12px 24px;
   background: #f7f7f7;
   color: #222;
 }
 
-.wrap {
-  max-width: 1000px;
-  margin: 0 auto;
+h1 {
+  font-size: 24px;
 }
 
-.box {
+.box, .card {
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 12px;
-  padding: 12px;
+  padding: 14px;
   margin-bottom: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
 }
 
-.rowFlex {
+.row {
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
 }
 
 .field {
+  display: flex;
+  flex-direction: column;
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  min-width: 150px;
 }
 
-.field label {
-  font-size: 12px;
+label {
   font-weight: bold;
-}
-
-input[type="number"], select {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  margin-bottom: 6px;
   font-size: 14px;
-  box-sizing: border-box;
 }
 
-.boardBox {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 10px;
-}
-
-.boardRow {
-  display: flex;
-  gap: 8px;
-  justify-content: flex-start;
-}
-
-.boardDivider {
-  border-top: 2px solid #cbd5e1;
-  margin: 10px 0;
-}
-
-.cell {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  width: 56px;
-}
-
-select.gameSelect {
-  width: 52px;
-  font-size: 13px;
-  padding: 6px 2px;
-  text-align: center;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: none;
-  background-color: #f3f4f6;
-  color: #666;
-  font-weight: bold;
-}
-
-select.gameSelect.win {
-  background: #dbeafe;
-  color: #1d4ed8;
-  border-color: #93c5fd;
-}
-
-select.gameSelect.lose {
-  background: #fee2e2;
-  color: #dc2626;
-  border-color: #fca5a5;
-}
-
-select.gameSelect.empty {
-  background: #f3f4f6;
-  color: #9ca3af;
-  border-color: #d1d5db;
-}
-
-.bonusWrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-}
-
-.bonusWrap label {
-  font-size: 10px;
-  color: #555;
-}
-
-.bonusWrap input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  margin: 0;
-  accent-color: #2563eb;
-}
-
-.scoreBar {
-  font-weight: bold;
+input, button {
   font-size: 16px;
-  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
 }
 
 button {
   width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  background: #2563eb;
+  margin-top: 12px;
+  background: #1f6feb;
   color: white;
   font-weight: bold;
-  font-size: 14px;
-  cursor: pointer;
+  border: none;
+}
+
+.note {
+  font-size: 13px;
+  color: #666;
+  margin-top: 10px;
 }
 
 .summary {
-  white-space: pre-line;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin: 12px 0;
 }
 
-.result-card {
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  background: #fff;
-  padding: 12px;
-  margin-bottom: 10px;
-}
-
-.result-card.exact {
+.card.exact {
   border: 2px solid #16a34a;
   background: #f0fff4;
 }
 
-.result-card.near {
+.card.near {
   border: 2px solid #f59e0b;
   background: #fffaf0;
 }
 
-.result-title {
+.title {
   font-weight: bold;
+  font-size: 17px;
   margin-bottom: 8px;
 }
 
 .meta {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-  font-size: 13px;
-  margin-bottom: 8px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  font-size: 14px;
 }
 
 .patterns {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px;
+  margin-top: 10px;
 }
 
 .chip {
   background: #eef2ff;
   border: 1px solid #c7d2fe;
   border-radius: 999px;
-  padding: 4px 8px;
+  padding: 6px 10px;
   font-family: monospace;
-  font-size: 13px;
+  font-size: 15px;
 }
 
-.emptyMessage {
-  border: 1px dashed #ccc;
-  border-radius: 10px;
-  padding: 12px;
-  color: #666;
-  background: #fafafa;
+.badge {
+  display: inline-block;
+  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  margin-left: 6px;
+  color: #fff;
 }
 
-@media (max-width: 700px) {
+.green { background: #16a34a; }
+.orange { background: #f59e0b; }
+
+@media (max-width: 640px) {
   .meta {
     grid-template-columns: 1fr;
-  }
-
-  .cell {
-    width: 60px;
-  }
-
-  select.gameSelect {
-    width: 56px;
-    font-size: 14px;
-  }
-
-  .bonusWrap input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
   }
 }
 </style>
 </head>
+
 <body>
 
-<div class="wrap">
-  <h3>残り9試合シミュレーター</h3>
+<h1>9試合 星取表シミュレーター</h1>
 
-  <div class="box">
-    <div class="rowFlex">
-      <div class="field">
-        <label>現在の獲得点</label>
-        <input type="number" id="baseScore" placeholder="">
-      </div>
-
-      <div class="field">
-        <label>目標得点</label>
-        <input type="number" id="targetScore" placeholder="">
-      </div>
+<div class="box">
+  <div class="row">
+    <div class="field">
+      <label for="currentScore">現在得点</label>
+      <input type="number" id="currentScore" value="0">
     </div>
 
-    <div class="field" style="margin-top:10px;">
-      <label>直近の勝敗</label>
-      <select id="lastResult">
-        <option value="win">勝ち</option>
-        <option value="lose" selected>負け</option>
-      </select>
+    <div class="field">
+      <label for="targetScore">目標最終得点</label>
+      <input type="number" id="targetScore" value="30">
     </div>
   </div>
 
-  <div class="boardBox">
-    <div class="boardRow" id="row1"></div>
-    <div class="boardDivider"></div>
-    <div class="boardRow" id="row2"></div>
-    <div class="boardDivider"></div>
-    <div class="boardRow" id="row3"></div>
-  </div>
+  <button onclick="calculate()">計算する</button>
 
-  <div class="scoreBar" id="scoreBar">累計得点: 0点</div>
-
-  <button onclick="calculate()">残りパターン計算</button>
-
-  <div class="box">
-    <div id="summary" class="summary"></div>
-    <div id="result"></div>
+  <div class="note">
+    ※ 全9試合固定。<br>
+    ※ 1・4・7試合目の勝利点は +2、それ以外は +3。<br>
+    ※ 1億ボーナスは毎試合 +1 として計算。<br>
+    ※ 連勝ボーナスは、勝ちが続くたびに +1。<br>
+    ※ 目標得点 ±3点 の組み合わせを表示。
   </div>
 </div>
 
+<div id="summary" class="summary"></div>
+<div id="result"></div>
+
 <script>
-const TOTAL = 9;
-const ALLOW = 3;
-
-function createCell(i) {
-  const div = document.createElement("div");
-  div.className = "cell";
-
-  const select = document.createElement("select");
-  select.className = "gameSelect empty";
-
-  [
-    { value: "", text: "未" },
-    { value: "win", text: "○" },
-    { value: "lose", text: "×" }
-  ].forEach(v => {
-    const opt = document.createElement("option");
-    opt.value = v.value;
-    opt.text = v.text;
-    select.appendChild(opt);
-  });
-
-  select.onchange = () => {
-    updateSelectStyle(select);
-    updateScore();
-  };
-
-  const check = document.createElement("input");
-  check.type = "checkbox";
-  check.checked = true;
-  check.onchange = updateScore;
-
-  const label = document.createElement("label");
-  label.textContent = "ボナp";
-
-  const wrap = document.createElement("div");
-  wrap.className = "bonusWrap";
-  wrap.appendChild(check);
-  wrap.appendChild(label);
-
-  div.appendChild(select);
-  div.appendChild(wrap);
-
-  return div;
-}
-
-function updateSelectStyle(select) {
-  select.classList.remove("win", "lose", "empty");
-  if (select.value === "win") {
-    select.classList.add("win");
-  } else if (select.value === "lose") {
-    select.classList.add("lose");
-  } else {
-    select.classList.add("empty");
+function winPointByGame(gameNumber) {
+  if (gameNumber === 1 || gameNumber === 4 || gameNumber === 7) {
+    return 2;
   }
-}
-
-function init() {
-  for (let i = 0; i < 3; i++) row1.appendChild(createCell(i));
-  for (let i = 3; i < 6; i++) row2.appendChild(createCell(i));
-  for (let i = 6; i < 9; i++) row3.appendChild(createCell(i));
-
-  document.querySelectorAll(".gameSelect").forEach(updateSelectStyle);
-}
-
-function getResults() {
-  return Array.from(document.querySelectorAll(".gameSelect")).map(e => e.value);
-}
-
-function getBonus() {
-  return Array.from(document.querySelectorAll(".bonusWrap input")).map(e => e.checked ? 1 : 0);
-}
-
-function calcSeq(seq, bonus, last) {
-  let score = 0;
-  let prev = (last === "win");
-  let winCount = 0;
-  let streakBonus = 0;
-
-  for (let i = 0; i < seq.length; i++) {
-    if (bonus[i]) score += 1;
-
-    if (seq[i] === "win") {
-      score += 3;
-      winCount += 1;
-
-      if (prev) {
-        score += 2;
-        streakBonus += 2;
-      }
-      prev = true;
-    } else if (seq[i] === "lose") {
-      prev = false;
-    }
-  }
-
-  return { score, winCount, streakBonus };
-}
-
-function updateScore() {
-  const base = Number(baseScore.value) || 0;
-  const res = getResults();
-  const bon = getBonus();
-  const last = lastResult.value;
-
-  const filled = [];
-  for (let r of res) {
-    if (r === "") break;
-    filled.push(r);
-  }
-
-  const calc = calcSeq(filled, bon, last);
-  const total = base + calc.score;
-  scoreBar.textContent = "累計得点: " + total + "点";
+  return 3;
 }
 
 function calculate() {
-  const base = Number(baseScore.value) || 0;
-  const target = Number(targetScore.value) || 0;
-  const res = getResults();
-  const bon = getBonus();
-  const last = lastResult.value;
+  const currentScore = Number(document.getElementById("currentScore").value);
+  const targetScore = Number(document.getElementById("targetScore").value);
 
-  let fixed = [];
-  for (let r of res) {
-    if (r === "") break;
-    fixed.push(r);
-  }
+  const totalGames = 9;
+  const tolerance = 3;
+  const totalPatterns = Math.pow(2, totalGames);
 
-  for (let i = fixed.length; i < res.length; i++) {
-    if (res[i] !== "") {
-      summary.textContent = "途中を空けて入力はできません";
-      result.innerHTML = '<div class="emptyMessage">勝敗は左から順に入力してください。</div>';
-      return;
-    }
-  }
+  const groupedMap = new Map();
 
-  const fixedCalc = calcSeq(fixed, bon, last);
-  const current = base + fixedCalc.score;
-  scoreBar.textContent = "累計得点: " + current + "点";
+  for (let mask = 0; mask < totalPatterns; mask++) {
+    const results = [];
 
-  const remain = TOTAL - fixed.length;
-  const total = Math.pow(2, remain);
-  const remainBonus = bon.slice(fixed.length);
-  const remainLast = fixed.length ? fixed[fixed.length - 1] : last;
-
-  let grouped = new Map();
-  let match = 0;
-
-  for (let m = 0; m < total; m++) {
-    let seq = [];
-    for (let i = remain - 1; i >= 0; i--) {
-      seq.push((m & (1 << i)) ? "win" : "lose");
+    for (let i = totalGames - 1; i >= 0; i--) {
+      const isWin = (mask & (1 << i)) !== 0;
+      results.push(isWin ? "○" : "×");
     }
 
-    const calc = calcSeq(seq, remainBonus, remainLast);
-    const finalScore = current + calc.score;
-    const diff = finalScore - target;
+    let gainedScore = 0;
+    let winCount = 0;
+    let winPointTotal = 0;
+    let billionBonus = 0;
+    let streakBonus = 0;
+    let prevWin = false;
 
-    if (Math.abs(diff) <= ALLOW) {
-      match += 1;
-      const key = calc.winCount + "_" + calc.streakBonus;
+    for (let i = 0; i < results.length; i++) {
+      const gameNumber = i + 1;
+      const isWin = results[i] === "○";
 
-      if (!grouped.has(key)) {
-        grouped.set(key, {
+      // 1億ボーナスは毎試合 +1
+      gainedScore += 1;
+      billionBonus += 1;
+
+      if (isWin) {
+        const winPoint = winPointByGame(gameNumber);
+        gainedScore += winPoint;
+        winPointTotal += winPoint;
+        winCount++;
+
+        if (prevWin) {
+          gainedScore += 1;
+          streakBonus += 1;
+        }
+      }
+
+      prevWin = isWin;
+    }
+
+    const finalScore = currentScore + gainedScore;
+    const diff = finalScore - targetScore;
+
+    if (Math.abs(diff) <= tolerance) {
+      const key = `${winCount}_${winPointTotal}_${streakBonus}_${finalScore}`;
+      const patternText = results.join("");
+
+      if (!groupedMap.has(key)) {
+        groupedMap.set(key, {
+          winCount,
+          winPointTotal,
+          billionBonus,
+          streakBonus,
+          gainedScore,
           finalScore,
           diff,
-          gainedScore: calc.score,
-          winCount: calc.winCount,
-          streakBonus: calc.streakBonus,
           patterns: []
         });
       }
 
-      grouped.get(key).patterns.push(
-        seq.map(r => r === "win" ? "○" : "×").join("")
-      );
+      groupedMap.get(key).patterns.push(patternText);
     }
   }
 
-  const groups = Array.from(grouped.values()).sort((a, b) => {
-    const diffA = Math.abs(a.diff);
-    const diffB = Math.abs(b.diff);
-    if (diffA !== diffB) return diffA - diffB;
-    if (a.winCount !== b.winCount) return a.winCount - b.winCount;
-    if (a.streakBonus !== b.streakBonus) return a.streakBonus - b.streakBonus;
-    return a.patterns.length - b.patterns.length;
+  const groups = Array.from(groupedMap.values());
+
+  groups.sort((a, b) => {
+    if (Math.abs(a.diff) !== Math.abs(b.diff)) {
+      return Math.abs(a.diff) - Math.abs(b.diff);
+    }
+    if (a.winCount !== b.winCount) {
+      return a.winCount - b.winCount;
+    }
+    return a.streakBonus - b.streakBonus;
   });
 
-  summary.textContent =
-    "総パターン数: " + total + "通り\n" +
-    "一致パターン数: " + match + "通り\n" +
-    "該当グループ: " + groups.length + "件\n" +
-    "累計得点: " + current + "点 / 残り試合数: " + remain;
+  render(groups);
+}
+
+function render(groups) {
+  const summary = document.getElementById("summary");
+  const result = document.getElementById("result");
+
+  summary.textContent = `該当グループ: ${groups.length}件`;
 
   if (groups.length === 0) {
-    result.innerHTML = '<div class="emptyMessage">条件に合う組み合わせはありません。</div>';
+    result.innerHTML = '<div class="card">目標得点 ±3点 に入る組み合わせはありません。</div>';
     return;
   }
 
   let html = "";
+
   for (const group of groups) {
-    const absDiff = Math.abs(group.diff);
-    const diffText = group.diff > 0 ? "+" + group.diff : String(group.diff);
+    const diffText = group.diff > 0 ? `+${group.diff}` : `${group.diff}`;
 
-    let cardClass = "result-card";
-    if (group.diff === 0) cardClass += " exact";
-    else if (absDiff <= 1) cardClass += " near";
+    let cardClass = "card";
+    let badge = "";
 
-    const patternsHtml = group.patterns
+    if (group.diff === 0) {
+      cardClass += " exact";
+      badge = '<span class="badge green">ピッタリ</span>';
+    } else if (Math.abs(group.diff) <= 1) {
+      cardClass += " near";
+      badge = '<span class="badge orange">おしい</span>';
+    }
+
+    const patternHtml = group.patterns
       .sort()
-      .map(p => `<span class="chip">${p || "残りなし"}</span>`)
+      .map(p => `<span class="chip">${p}</span>`)
       .join("");
 
     html += `
       <div class="${cardClass}">
-        <div class="result-title">最終得点: ${group.finalScore}点</div>
+        <div class="title">
+          最終得点: ${group.finalScore}点 ${badge}
+        </div>
+
         <div class="meta">
           <div>目標との差: <strong>${diffText}</strong></div>
-          <div>残り試合の獲得点: <strong>${group.gainedScore}</strong></div>
-          <div>残り試合の勝数: <strong>${group.winCount}</strong></div>
-          <div>残り試合の連勝ボーナス: <strong>${group.streakBonus}</strong></div>
+          <div>獲得点: <strong>${group.gainedScore}</strong></div>
+          <div>勝数: <strong>${group.winCount}</strong></div>
+          <div>勝利点合計: <strong>${group.winPointTotal}</strong></div>
+          <div>1億ボーナス: <strong>${group.billionBonus}</strong></div>
+          <div>連勝ボーナス: <strong>${group.streakBonus}</strong></div>
           <div>パターン数: <strong>${group.patterns.length}</strong></div>
-          <div>表示範囲: <strong>目標値 ±3点</strong></div>
         </div>
-        <div class="patterns">${patternsHtml}</div>
+
+        <div class="patterns">
+          ${patternHtml}
+        </div>
       </div>
     `;
   }
@@ -505,12 +317,7 @@ function calculate() {
   result.innerHTML = html;
 }
 
-baseScore.addEventListener("input", updateScore);
-lastResult.addEventListener("change", updateScore);
-
-init();
-updateScore();
-summary.textContent = "条件を入力して計算してください。";
+calculate();
 </script>
 
 </body>
