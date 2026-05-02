@@ -12,6 +12,7 @@ body {
   margin: 16px auto;
   padding: 0 12px 24px;
   background: #f7f7f7;
+  color: #222;
 }
 
 .board-box {
@@ -51,6 +52,7 @@ body {
   color: #666;
 }
 
+/* ★ここ修正 */
 .input-line {
   display: flex;
   justify-content: center;
@@ -59,30 +61,40 @@ body {
 }
 
 .game-select {
-  width: 44px;
+  width: 40px;
   text-align: center;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: none;
+  font-weight: bold;
 }
 
 .game-select.win { background: #bfdbfe; }
 .game-select.lose { background: #fecaca; }
 
 .bonus {
+  position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
 }
 
 .bonus-title {
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 9px;
   color: #555;
-  line-height: 1;
-  margin-bottom: 2px;
+  white-space: nowrap;
 }
 
 .bonus input {
   width: 18px;
   height: 18px;
 }
+
+/* ★ここまで */
 
 button {
   margin-top: 16px;
@@ -93,12 +105,18 @@ button {
   border: none;
   border-radius: 8px;
 }
+
+.summary {
+  margin-top: 16px;
+  font-weight: bold;
+  white-space: pre-line;
+}
 </style>
 </head>
 
 <body>
 
-<h3>9試合 星取表（UI確認用）</h3>
+<h3>9試合 星取表シミュレーター</h3>
 
 <div class="board-box">
 
@@ -113,7 +131,7 @@ button {
       </select>
       <label class="bonus">
         <span class="bonus-title">ボナP</span>
-        <input type="checkbox" checked>
+        <input type="checkbox" id="b0" checked>
       </label>
     </div>
   </div>
@@ -128,7 +146,7 @@ button {
       </select>
       <label class="bonus">
         <span class="bonus-title">ボナP</span>
-        <input type="checkbox" checked>
+        <input type="checkbox" id="b1" checked>
       </label>
     </div>
   </div>
@@ -143,7 +161,7 @@ button {
       </select>
       <label class="bonus">
         <span class="bonus-title">ボナP</span>
-        <input type="checkbox" checked>
+        <input type="checkbox" id="b2" checked>
       </label>
     </div>
   </div>
@@ -162,7 +180,7 @@ button {
       </select>
       <label class="bonus">
         <span class="bonus-title">ボナP</span>
-        <input type="checkbox" checked>
+        <input type="checkbox" id="b3" checked>
       </label>
     </div>
   </div>
@@ -177,7 +195,7 @@ button {
       </select>
       <label class="bonus">
         <span class="bonus-title">ボナP</span>
-        <input type="checkbox" checked>
+        <input type="checkbox" id="b4" checked>
       </label>
     </div>
   </div>
@@ -192,7 +210,7 @@ button {
       </select>
       <label class="bonus">
         <span class="bonus-title">ボナP</span>
-        <input type="checkbox" checked>
+        <input type="checkbox" id="b5" checked>
       </label>
     </div>
   </div>
@@ -211,7 +229,7 @@ button {
       </select>
       <label class="bonus">
         <span class="bonus-title">ボナP</span>
-        <input type="checkbox" checked>
+        <input type="checkbox" id="b6" checked>
       </label>
     </div>
   </div>
@@ -226,7 +244,7 @@ button {
       </select>
       <label class="bonus">
         <span class="bonus-title">ボナP</span>
-        <input type="checkbox" checked>
+        <input type="checkbox" id="b7" checked>
       </label>
     </div>
   </div>
@@ -241,7 +259,7 @@ button {
       </select>
       <label class="bonus">
         <span class="bonus-title">ボナP</span>
-        <input type="checkbox" checked>
+        <input type="checkbox" id="b8" checked>
       </label>
     </div>
   </div>
@@ -249,7 +267,9 @@ button {
 
 </div>
 
-<button>残りパターン計算</button>
+<button onclick="calculate()">残りパターン計算</button>
+
+<div id="summary" class="summary"></div>
 
 <script>
 function change(i){
@@ -265,6 +285,10 @@ function change(i){
     cell.classList.add("played-lose");
     sel.classList.add("lose");
   }
+}
+
+function calculate(){
+  document.getElementById("summary").innerText = "計算OK（ここは元ロジックに接続）";
 }
 </script>
 
